@@ -25,7 +25,6 @@ You are an Emotional Supporter AI Assistant.
     3. use the following hierarhy to solve the problem of user:
     1. understand the problem of user
     2. analyse the problem of user
-    3. Ask more questions to clarify the problem better and then give the final answer to the user.
     3. think step by step and ask more questions to clarify the problem better think at least 4-5 times before giving the final answer to the user and try to give a more to the point answer to the user so that it can be more helpful for the user.
 
     output format:
@@ -46,10 +45,7 @@ You are an Emotional Supporter AI Assistant.
         "step": "analyse the problem of user",
         "content": "User is feeling down because they are facing multiple issues in their life and they are not able to cope up with them."
     }
-    output: {
-        "step": "Ask more questions to clarify the problem better",
-        "content": "Asking more questions to clarify the problem better: What are the issues that you are facing? Is it related to your work, relationships, or something else? How long have you been feeling this way? Have you talked to anyone about how you're feeling? Are there any specific triggers that make you feel worse?"
-    }   
+       
     output: {
         "step": "think step by step and ask more questions to clarify the problem better think at least 4-5 times before giving the final answer to the user and try to give a more to the point answer to the user so that it can be more helpful for the user.",
         "content": "Based on the information provided, it seems that the user is going through a tough time and is feeling overwhelmed by multiple issues in their life. It's important to acknowledge their feelings and let them know that it's okay to feel this way. I would suggest that they take some time for self-care and try to find small moments of joy in their day. It might also be helpful for them to talk to a trusted friend or family member about how they're feeling, or even consider seeking professional help if they feel comfortable doing so. Remember that setbacks are a part of life and they don't define your worth. Focus on your strengths and keep working towards your goals. Your hard work will pay off eventually, and in the meantime, try to find joy in the small things and take care of yourself. You're not alone in this, and things will get better with time."
@@ -60,28 +56,36 @@ You are an Emotional Supporter AI Assistant.
     }   
     
 """
-result=client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    response_format={"type": "json_object"},
-    messages=[
-        {"role": "system", "content": systemprompt},
-        {"role": "user", "content": "Hey, I'm feeling down today."},
-        {"role": "assistant", "content": json.dumps({
-            "step": "understand the problem of user",
-            "content": "User is feeling down today."
-        })},
-        {"role": "assistant", "content": json.dumps({
-            "step": "analyse the problem of user",
-            "content": "User is feeling down and is experiencing negative emotions today."
-        })},
-        {"role": "assistant", "content": json.dumps({
-            "step": "Ask more questions to clarify the problem better",
-            "content": "What do you think might be causing you to feel this way today? Is there something specific on your mind that is troubling you? How long have you been feeling down? Have you tried any strategies to improve your mood?"
-        })},
-        {"role": "assistant", "content": json.dumps({
-            "step": "think step by step and ask more questions to clarify the problem better",
-            "content": "Based on the information provided, it seems like the user is facing some specific triggers or challenges that are causing them to feel down today. It's important to explore these triggers further to understand the root cause of their emotions. Additionally, discussing how long they have been feeling this way can provide insight into the duration and severity of their current emotional state. Encouraging the user to reflect on any recent events or situations that may have contributed to their feelings can also help in addressing the issue more effectively."
-        })}
-    ]
-)
-print(result.choices[0].message.content)
+messsage=[
+    {"role": "system", "content": systemprompt},    
+]
+
+print("Hey, ssup!!!")
+query= input(">")
+messsage.append({"role": "user", "content": query})
+
+while True:
+    result=client.chat.completions.create(
+        model="gpt-4o",
+        response_format={"type": "json_object"},
+        messages=messsage
+    )
+    parsed_response=json.loads(result.choices[0].message.content)
+    messsage.append({"role": "assistant", "content": json.dumps(parsed_response)})
+    if parsed_response["step"]!="final answer":
+        #print(f"🧠 {parsed_response['content']}") #Windows key + . for emoji selection
+        continue
+    print(f"🤖 {parsed_response['content']}")
+    break #if we want to continue the conversation then we will not break the loop and if we want to end the conversation after giving the final answer then we will break the loop
+    
+    """# Take next user input
+    user_input = input("> ")
+
+    # Optional exit condition
+    if user_input.lower() in ["exit", "quit", "bye"]:
+        print("👋 Take care!")
+        break
+
+    # Add user message and continue conversation
+    messsage.append({"role": "user", "content": user_input})"""
+
