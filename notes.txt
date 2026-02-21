@@ -1,0 +1,7 @@
+1.  Problem : when creating a file using agent it gives error:  'touch' is not recognized as an internal or external command.
+    Reason: 🤖 On Windows, you can use the command 'echo. > filename.txt' to create a new empty file, where 'filename.txt' is the name of the file you want to create. 
+    This is an alternative to the 'touch' command commonly used in Unix-like systems.
+    ### This is also figured out by our agent yiepeeeee
+    Solution: create a file echo. > notes.txt in my current directory  ....aise use kroo
+
+2. 

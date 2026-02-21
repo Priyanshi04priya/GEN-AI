@@ -1,5 +1,5 @@
 import json
-from unittest import result
+import os
 from dotenv import load_dotenv
 from openai import OpenAI
 import requests
@@ -16,13 +16,23 @@ def get_weather(city):
     else:
         return "Sorry, I am not able to get the weather information right now."   
 
+def run_command(command):
+    result=os.system(command=command)
+    return result
+
+
 available_tools = {    #we can add more tools in this dictionary as we create more tools
     # openAI provides a direct template for making a tool and we can use that template to create more tools and add them in this dictionary
     #Just paste the function name in the "function" field and a brief description of the tool in the "description" field and it will be ready to use for the agent.
     "get_weather": {
         "function": get_weather,
         "description": "This tool is used to get the current weather of a city. It takes the name of the city as input and returns the current weather of that city."
-    } 
+    },
+    "run_command": {
+        "function": run_command,
+        "description": "Takes a command as input to execute on system and returns output."
+    }
+
 }
 
 systemprompt = """You are a helpful AI assistant which solves every kind of problem of user in a step by step way and give the final answer to the user in a more to the point way so that it can be more helpful for the user. Always try to give the final answer to the user in a more to the point way so that it can be more helpful for the user.  
@@ -38,15 +48,14 @@ Rules:
 output format:
 {{
     "step": "string",
-    "content": "string"
+    "content": "string",
     "function": "string", #only for action step
     "input": "string" #only for action step
 }}
 
 Available tools:
 - get_weather: This tool is used to get the current weather of a city. It takes the name of the city as input and returns the current weather of that city.
-
-
+- run_command: Takes a command as input to execute on system and returns output.
 Examples:
 user query: What is the weather of delhi today?
 output: {{"step": "plan","content": "The user is interested in knowing the current weatherof Delhi."}}
