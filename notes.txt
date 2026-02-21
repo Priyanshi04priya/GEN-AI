@@ -4,4 +4,4 @@
     ### This is also figured out by our agent yiepeeeee
     Solution: create a file echo. > notes.txt in my current directory  ....aise use kroo
 
-2. 
+2. Tools are already provided at "OpenAI assistant API tools" --->"Function calling" .
