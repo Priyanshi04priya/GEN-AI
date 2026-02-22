@@ -1,0 +1,14 @@
+#running the ollama server in a docker container
+services:
+  ollama:  #made a service named ollama
+    image: ollama/ollama:latest #using the latest version of the ollama image from docker hub
+    ports:
+      - "11434:11434"
+    volumes:
+      - models:/root/.ollama/models 
+
+volumes:
+  models:
+# To run the container, use the following command in the terminal:
+# docker-compose up -d
+# This will start the ollama server in the background. You can access it at http://localhost:11434.

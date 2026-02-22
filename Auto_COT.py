@@ -76,9 +76,9 @@ while True:
         #print(f"🧠 {parsed_response['content']}") #Windows key + . for emoji selection
         continue
     print(f"🤖 {parsed_response['content']}")
-    break #if we want to continue the conversation then we will not break the loop and if we want to end the conversation after giving the final answer then we will break the loop
+    #break #if we want to continue the conversation then we will not break the loop and if we want to end the conversation after giving the final answer then we will break the loop
     
-    """# Take next user input
+    # Take next user input
     user_input = input("> ")
 
     # Optional exit condition
@@ -87,5 +87,5 @@ while True:
         break
 
     # Add user message and continue conversation
-    messsage.append({"role": "user", "content": user_input})"""
+    messsage.append({"role": "user", "content": user_input})
 

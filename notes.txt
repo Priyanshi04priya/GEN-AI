@@ -5,3 +5,32 @@
     Solution: create a file echo. > notes.txt in my current directory  ....aise use kroo
 
 2. Tools are already provided at "OpenAI assistant API tools" --->"Function calling" .
+3. Running the models locally--- to hm ollama lo docker me run karenge for that make .yaml file the ek .py file for routing and all
+  -> docker context use default ...run this on terminal 
+  -> if docker is not working close it and right click and run as administrator
+  ->docker-compose up ...then run this
+  ->python ollama_api.py
+
+  //uvicorn ko install kro ->pip install uvicorn
+  -> uvicorn ollama_api:app --port 8000
+  -> ....link....8000/docs 
+  Note: ollama.api.py file me routing compulsory hai then it will work fine
+
+  
+4. What is http://127.0.0.1:8000/docs?
+   That link opens the automatic API documentation page for your app.
+   When you build an app using FastAPI, it automatically creates a web page where you can:
+   ✅ See all your API routes
+   ✅ Test them directly from the browser
+   ✅ Send requests without using Postman
+   ✅ See what inputs/outputs are expected
+   So /docs = interactive testing page for your backend
+
+5. What is FastAPI? (Simple explanation)
+   FastAPI is a tool to build backend servers using Python. 
+   FastAPI lets your AI talk to users through the internet
+   1️⃣ User sends request
+   2️⃣ FastAPI receives it
+   3️⃣ FastAPI sends text to AI model
+   4️⃣ AI generates answer
+   5️⃣ FastAPI sends result back
