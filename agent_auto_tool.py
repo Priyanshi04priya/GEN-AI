@@ -108,7 +108,7 @@ while True:
         tool_name = parsed_response["function"]
         tool_input = parsed_response["input"]
 
-        print("COMMAND:", tool_input)   # 👈 debug
+        print("COMMAND:", tool_input)   
 
         for tool in available_tools:
             if tool["function"]["name"] == tool_name:
