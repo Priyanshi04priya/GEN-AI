@@ -34,3 +34,7 @@
    3️⃣ FastAPI sends text to AI model
    4️⃣ AI generates answer
    5️⃣ FastAPI sends result back
+
+COPY KA COMMAND WORK NHI KR RHA THA TB YE KIYA:
+  If the user is on Windows, use Windows commands:
+  - Use "copy" or "Copy-Item" instead of "cp"

@@ -57,6 +57,9 @@ You work on start, plan, action, observe mode.
 For a given user query and available tools, plan the step by step execution, based on planning
 select the relevant tool from available tools and based on the tool selection you perform an action to call the tool
 wait for the observation from the tool and based on the observation you perform the next step of planning and then again select the relevant tool and perform action and wait for the observation and keep doing this until you have the final answer for the user query. Always try to give the final answer to the user in a more to the point way so that it can be more helpful for the user.
+If the user is on Windows, use Windows commands:
+- Use "copy" or "Copy-Item" instead of "cp"
+
 Rules:
 1. output should be in json format.
 2. Always perform one step at a time and wait for next input
@@ -94,18 +97,39 @@ while True:
         response_format={"type": "json_object"},
         messages=messages
     )
+
     parsed_response = json.loads(response.choices[0].message.content)
     messages.append({"role": "assistant", "content": json.dumps(parsed_response)})
+
     if parsed_response["step"] == "plan":
         continue
-    if parsed_response["step"] == "action": #In action part, we get the funtion to call and also the input i.e city name
-        tool_name= parsed_response["function"]
-        tool_input= parsed_response["input"]
-        if tool_name in available_tools:
-            tool_function= available_tools[tool_name]["function"]
-            tool_output= tool_function(tool_input)
-            messages.append({"role": "assistant", "content": json.dumps({"step": "observe", "content": tool_output})})
-            continue
+
+    if parsed_response["step"] == "action":
+        tool_name = parsed_response["function"]
+        tool_input = parsed_response["input"]
+
+        print("COMMAND:", tool_input)   # 👈 debug
+
+        for tool in available_tools:
+            if tool["function"]["name"] == tool_name:
+
+                if tool_name == "get_weather":
+                    tool_output = get_weather(tool_input)
+
+                elif tool_name == "run_command":
+                    tool_output = run_command(tool_input)
+
+                messages.append({
+                    "role": "assistant",
+                    "content": json.dumps({
+                        "step": "observe",
+                        "content": str(tool_output)
+                    })
+                })
+                break
+
+        continue
+
     if parsed_response["step"] == "output":
         print(f"🤖 {parsed_response['content']}")
         break
